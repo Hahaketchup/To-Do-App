@@ -41,12 +41,15 @@ function removeItem(event) {
 }
 
 function strikethrough(event) {
+
+
+
     if(event.target.classList.contains('list-item')) {
         var ul = event.target.parentElement;
-        toDoList.style.textDecoration = "";
+        toDoList.style.textDecoration = "line-through";
     }   else {
         ul = event.target.parentElement;
-        toDoList.style.textDecoration = "line-through";
+        toDoList.style.textDecoration = "";
 
         return event;
     }
