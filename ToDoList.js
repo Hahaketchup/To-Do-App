@@ -1,7 +1,8 @@
+//states where the functions go
 var itemInput = document.getElementById('main-input');
 var toDoList = document.getElementById('toDo');
 
-
+//adds specifications to the functions
 itemInput.addEventListener('submit', addItem);
 
 toDoList.addEventListener('click', strikethrough);
@@ -10,7 +11,7 @@ toDoList.addEventListener('click', strikethrough);
 
 toDoList.addEventListener('click', removeItem);
 
-
+//allows an item input
 function addItem(event) {
     event.preventDefault();
 
@@ -35,22 +36,21 @@ function addItem(event) {
 
 function removeItem(event) {
     if(event.target.classList.contains('delete')) {
-        var ul = event.target.parentElement;
+        var ul = event.currentTarget.parentElement;
         toDoList.removeChild(ul);
     }
 }
 
 function strikethrough(event) {
-
-
-
     if(event.target.classList.contains('list-item')) {
-        var ul = event.target.parentElement;
-        toDoList.style.textDecoration = "line-through";
-    }   else {
-        ul = event.target.parentElement;
-        toDoList.style.textDecoration = "";
+        if(toDoList.style.textDecoration != "line-through") {
+            var ul = event.target.parentElement;
+            toDoList.style.textDecoration = "line-through";
+    }       else {
+            var ul = event.target.parentElement;
+            toDoList.style.textDecoration = "";
 
-        return event;
+        // return event;
+        }
     }
 }
