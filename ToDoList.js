@@ -28,13 +28,11 @@ function addItem(event) {
     checkbox.setAttribute('type', 'checkbox');
     ul.prepend(checkbox);
 
-    var deleteButton = document.createElement('button');
-    deleteButton.className = 'btn btn-danger btn-sm float-right delete';
-    deleteButton.appendChild(document.createTextNode('X'));
 
 
 
-    ul.appendChild(deleteButton);
+
+    
 
     toDoList.appendChild(ul);
 
@@ -43,8 +41,17 @@ function addItem(event) {
 
 function removeItem(event) {
     if(event.target.classList.contains('delete')) {
-        var ul = event.target.parentElement;
-        toDoList.removeChild(ul);
+        if(strike.parentElement.style.textDecoration = "line-through") {
+            var deleteButton = document.createElement('button');
+            deleteButton.className = 'btn btn-danger btn-sm float-right delete';
+            deleteButton.appendChild(document.createTextNode('X'));
+
+            ul.appendChild(deleteButton);
+
+            var ul = event.target.parentElement;
+            toDoList.removeChild(ul);
+        }
+
     }
 }
 
