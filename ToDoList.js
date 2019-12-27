@@ -23,9 +23,16 @@ function addItem(event) {
 
     ul.appendChild(document.createTextNode(newItem));
 
+    var checkbox = document.createElement('input');
+    checkbox.className = 'btn checkbox';
+    checkbox.setAttribute('type', 'checkbox');
+    ul.prepend(checkbox);
+
     var deleteButton = document.createElement('button');
     deleteButton.className = 'btn btn-danger btn-sm float-right delete';
     deleteButton.appendChild(document.createTextNode('X'));
+
+
 
     ul.appendChild(deleteButton);
 
@@ -36,21 +43,16 @@ function addItem(event) {
 
 function removeItem(event) {
     if(event.target.classList.contains('delete')) {
-        var ul = event.currentTarget.parentElement;
+        var ul = event.target.parentElement;
         toDoList.removeChild(ul);
     }
 }
 
 function strikethrough(event) {
-    if(event.target.classList.contains('list-item')) {
-        if(toDoList.style.textDecoration != "line-through") {
-            var ul = event.target.parentElement;
-            toDoList.style.textDecoration = "line-through";
-    }       else {
-            var ul = event.target.parentElement;
-            toDoList.style.textDecoration = "";
-
-        // return event;
-        }
+    const strike = event.target.nextSibling;
+    if(event.target.checked) {
+        strike.style.textDecoration = "line-through";
+    } else {
+        strike.style.textDecoration = "";
     }
 }
