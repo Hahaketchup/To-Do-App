@@ -7,8 +7,6 @@ itemInput.addEventListener('submit', addItem);
 
 toDoList.addEventListener('click', strikethrough);
 
-// toDoList.addEventListener('click', removeStrike);
-
 toDoList.addEventListener('click', removeItem);
 
 //allows an item input
@@ -17,7 +15,7 @@ function addItem(event) {
 
     var newItem = document.getElementById('input').value;
 
-    var ul = document.createElement('ul');
+    var ul = document.createElement('li');
     ul.className = 'list-item';
 
 
@@ -28,11 +26,11 @@ function addItem(event) {
     checkbox.setAttribute('type', 'checkbox');
     ul.prepend(checkbox);
 
-
-
-
-
-    
+    var deleteButton = document.createElement('button');
+    deleteButton.className = 'btn btn-danger btn-sm float-right delete';
+    deleteButton.appendChild(document.createTextNode('X'));
+    deleteButton.style.visibility = "hidden";
+    ul.appendChild(deleteButton);
 
     toDoList.appendChild(ul);
 
@@ -41,25 +39,18 @@ function addItem(event) {
 
 function removeItem(event) {
     if(event.target.classList.contains('delete')) {
-        if(strike.parentElement.style.textDecoration = "line-through") {
-            var deleteButton = document.createElement('button');
-            deleteButton.className = 'btn btn-danger btn-sm float-right delete';
-            deleteButton.appendChild(document.createTextNode('X'));
-
-            ul.appendChild(deleteButton);
-
             var ul = event.target.parentElement;
             toDoList.removeChild(ul);
         }
-
     }
-}
 
 function strikethrough(event) {
     const strike = event.target.nextSibling;
     if(event.target.checked) {
         strike.parentElement.style.textDecoration = "line-through";
+        strike.nextSibling.style.visibility = "visible"
     } else {
         strike.parentElement.style.textDecoration = "";
+        strike.nextSibling.style.visibility = "hidden";
     }
 }
