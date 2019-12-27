@@ -51,8 +51,8 @@ function removeItem(event) {
 function strikethrough(event) {
     const strike = event.target.nextSibling;
     if(event.target.checked) {
-        strike.style.textDecoration = "line-through";
+        strike.parentElement.style.textDecoration = "line-through";
     } else {
-        strike.style.textDecoration = "";
+        strike.parentElement.style.textDecoration = "";
     }
 }
