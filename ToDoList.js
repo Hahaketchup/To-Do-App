@@ -9,6 +9,10 @@ toDoList.addEventListener('click', strikethrough);
 
 toDoList.addEventListener('click', removeItem);
 
+const todos = JSON.parse(localStorage.getItem("todos")) || [];
+console.log(todos)
+
+
 //allows an item input
 function addItem(event) {
     event.preventDefault();
@@ -17,8 +21,6 @@ function addItem(event) {
 
     var ul = document.createElement('li');
     ul.className = 'list-item';
-
-
     ul.appendChild(document.createTextNode(newItem));
 
     var checkbox = document.createElement('input');
@@ -34,14 +36,36 @@ function addItem(event) {
 
     toDoList.appendChild(ul);
 
-    document.getElementById('input').value ='';    
+    document.getElementById('input').value =''; 
+
+    if(newItem.length > 0) {
+        const task = {
+            newItem,
+            checked: false,
+            id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1
+        };
+
+    todos.push(newItem);
+    localStorage.setItem("todos", JSON.stringify(todos));
+    }
+}
+
+function renderList() {
+    var list = "";
+    let i;
+    for(i = 0; i < todos.length; i++) {
+        list += i;
+    }
+    document.getElementById('toDo').innerHTML = list;
 }
 
 function removeItem(event) {
     if(event.target.classList.contains('delete')) {
             var ul = event.target.parentElement;
             toDoList.removeChild(ul);
+            localStorage.removeItem(todos);
         }
+        localStorage.setItem('todos', JSON.stringify(todos));
     }
 
 function strikethrough(event) {
