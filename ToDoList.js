@@ -7,10 +7,10 @@ itemInput.addEventListener('submit', addItem);
 
 toDoList.addEventListener('click', strikethrough);
 
-toDoList.addEventListener('click', removeItem);
+toDoList.addEventListener('click', remove);
 
 const todos = JSON.parse(localStorage.getItem("todos")) || [];
-console.log(todos)
+console.log(todos);
 
 
 //allows an item input
@@ -51,22 +51,22 @@ function addItem(event) {
 }
 
 function renderList() {
-    var list = "";
-    let i;
-    for(i = 0; i < todos.length; i++) {
-        list += i;
-    }
-    document.getElementById('toDo').innerHTML = list;
-}
+const list = [document.getElementById('toDo')];
 
-function removeItem(event) {
+for(let i = 0; i < todos.length; i++) {
+    console.log(todos[i]);
+}
+};
+
+function remove(event) {
     if(event.target.classList.contains('delete')) {
             var ul = event.target.parentElement;
             toDoList.removeChild(ul);
-            localStorage.removeItem(todos);
+
         }
-        localStorage.setItem('todos', JSON.stringify(todos));
-    }
+        localStorage.removeItem(JSON.stringify(todos));
+        
+    };
 
 function strikethrough(event) {
     const strike = event.target.nextSibling;
@@ -77,4 +77,15 @@ function strikethrough(event) {
         strike.parentElement.style.textDecoration = "";
         strike.nextSibling.style.visibility = "hidden";
     }
-}
+    
+};
+
+const savedToDos = localStorage.getItem('todos');
+console.log(savedToDos);
+console.log(typeof(savedToDos));
+const savedToDosArray = JSON.parse(localStorage.getItem(savedToDos));
+
+// loop through each item in savedToDosArray
+renderList();
+// console.log(todoItemText)
+console.log(todos);
