@@ -11,6 +11,7 @@ toDoList.addEventListener('click', remove);
 
 const todos = JSON.parse(localStorage.getItem("todos")) || [];
 console.log(todos);
+console.log(typeof(todos));
 
 
 //allows an item input
@@ -38,16 +39,8 @@ function addItem(event) {
 
     document.getElementById('input').value =''; 
 
-    if(newItem.length > 0) {
-        const task = {
-            newItem,
-            checked: false,
-            id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1
-        };
-
     todos.push(newItem);
     localStorage.setItem("todos", JSON.stringify(todos));
-    }
 }
 
 function renderList() {
@@ -55,37 +48,51 @@ const list = [document.getElementById('toDo')];
 
 for(let i = 0; i < todos.length; i++) {
     console.log(todos[i]);
+
+    var ul = document.createElement('li');
+    ul.className = 'list-item';
+    ul.appendChild(document.createTextNode(todos[i]));
+
+    var checkbox = document.createElement('input');
+    checkbox.className = 'btn checkbox';
+    checkbox.setAttribute('type', 'checkbox');
+    ul.prepend(checkbox);
+
+    var deleteButton = document.createElement('button');
+    deleteButton.className = 'btn btn-danger btn-sm float-right delete';
+    deleteButton.appendChild(document.createTextNode('X'));
+    deleteButton.style.visibility = "hidden";
+    ul.appendChild(deleteButton);
+
+    toDoList.appendChild(ul);
 }
 };
 
 function remove(event) {
-    if(event.target.classList.contains('delete')) {
-            var ul = event.target.parentElement;
-            toDoList.removeChild(ul);
 
+    if(event.target.classList.contains('delete')) {
+        let i = 0;
+        var ul = event.target.parentElement;
+        toDoList.removeChild(ul);
+        todos.splice(i, 1);
         }
-        localStorage.removeItem(JSON.stringify(todos));
-        
-    };
+
+    localStorage.setItem('todos', JSON.stringify(todos));
+};
 
 function strikethrough(event) {
+    let i = 0;
     const strike = event.target.nextSibling;
     if(event.target.checked) {
         strike.parentElement.style.textDecoration = "line-through";
         strike.nextSibling.style.visibility = "visible"
+        todos[i].checked
     } else {
         strike.parentElement.style.textDecoration = "";
         strike.nextSibling.style.visibility = "hidden";
+        
     }
-    
+    localStorage.setItem('todos', JSON.stringify(todos));
 };
 
-const savedToDos = localStorage.getItem('todos');
-console.log(savedToDos);
-console.log(typeof(savedToDos));
-const savedToDosArray = JSON.parse(localStorage.getItem(savedToDos));
-
-// loop through each item in savedToDosArray
 renderList();
-// console.log(todoItemText)
-console.log(todos);
