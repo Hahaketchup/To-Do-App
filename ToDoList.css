@@ -1,0 +1,43 @@
+
+body {
+text-align: center;
+background-color: floralwhite;
+color: darkslategray;
+justify-content: space-evenly;
+margin: auto;
+
+}
+
+#main-input {
+  font-size: 32px;
+}
+
+.container {
+  font-size: 32px;
+  padding-top: 50px;
+  margin: auto;
+  display: inline-block;
+  
+  
+  
+}
+
+.list-item {
+justify-content: flex-start;
+}
+
+.delete {
+  margin-left: 10px;
+  align-items: right;
+  border: 2px solid red;
+  border-radius: 25px;
+  font-size: 20px;
+}
+
+.completeBtn {
+    margin-left: 20px;
+    align-items: right;
+    overflow: hidden;
+    position: relative;
+    
+}

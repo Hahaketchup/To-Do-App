@@ -9,30 +9,37 @@ toDoList.addEventListener('click', strikethrough);
 
 toDoList.addEventListener('click', remove);
 
+toDoList.addEventListener('click', toggleDelete);
+
 const todos = JSON.parse(localStorage.getItem("todos")) || [];
 console.log(todos);
 console.log(typeof(todos));
+
 
 
 //allows an item input
 function addItem(event) {
     event.preventDefault();
 
-    var newItem = document.getElementById('input').value;
+    let newItem = document.getElementById('input').value;
 
-    var ul = document.createElement('li');
+    let ul = document.createElement('li');
     ul.className = 'list-item';
     ul.appendChild(document.createTextNode(newItem));
 
-    var checkbox = document.createElement('input');
-    checkbox.className = 'btn checkbox';
-    checkbox.setAttribute('type', 'checkbox');
-    ul.prepend(checkbox);
+    let completeBtn = document.createElement('input');
+    completeBtn.className = 'checkbox btn-success btn-sm float right mt-1 mr-2 mb-1 completeBtn';
+    completeBtn.appendChild(document.createTextNode('Completed'));
+    completeBtn.setAttribute("type", "checkbox");
+    ul.appendChild(completeBtn);
 
-    var deleteButton = document.createElement('button');
+    const deleteButton = document.createElement('button');
     deleteButton.className = 'btn btn-danger btn-sm float-right delete';
     deleteButton.appendChild(document.createTextNode('X'));
     deleteButton.style.visibility = "hidden";
+    deleteButton.style.background = "red";
+    deleteButton.style.color = "white";
+    deleteButton.style.font = "bold";
     ul.appendChild(deleteButton);
 
     toDoList.appendChild(ul);
@@ -44,35 +51,39 @@ function addItem(event) {
 }
 
 function renderList() {
-const list = [document.getElementById('toDo')];
+    const list = [document.getElementById('toDo')];
 
-for(let i = 0; i < todos.length; i++) {
-    console.log(todos[i]);
+    for(let i = 0; i < todos.length; i++) {
+        console.log(todos[i]);
 
-    var ul = document.createElement('li');
-    ul.className = 'list-item';
-    ul.appendChild(document.createTextNode(todos[i]));
+        let ul = document.createElement('li');
+        ul.className = 'list-item';
+        ul.appendChild(document.createTextNode(todos[i]));
 
-    var checkbox = document.createElement('input');
-    checkbox.className = 'btn checkbox';
-    checkbox.setAttribute('type', 'checkbox');
-    ul.prepend(checkbox);
+        let completeBtn = document.createElement('input');
+        completeBtn.className = 'checkbox btn-success btn-sm float right mt-1 mr-2 mb-1 completeBtn';
+        completeBtn.appendChild(document.createTextNode('Completed'));
+        completeBtn.setAttribute("type", "checkbox");
+        ul.appendChild(completeBtn);
 
-    var deleteButton = document.createElement('button');
-    deleteButton.className = 'btn btn-danger btn-sm float-right delete';
-    deleteButton.appendChild(document.createTextNode('X'));
-    deleteButton.style.visibility = "hidden";
-    ul.appendChild(deleteButton);
+        const deleteButton = document.createElement('button');
+        deleteButton.className = 'btn btn-danger btn-sm float-right delete';
+        deleteButton.appendChild(document.createTextNode('X'));
+        deleteButton.style.visibility = "hidden";
+        deleteButton.style.background = "red";
+        deleteButton.style.color = "white";
+        deleteButton.style.font = "bold";
+        ul.appendChild(deleteButton);
 
-    toDoList.appendChild(ul);
-}
+        toDoList.appendChild(ul);
+    }
 };
 
 function remove(event) {
 
     if(event.target.classList.contains('delete')) {
         let i = 0;
-        var ul = event.target.parentElement;
+        let ul = event.target.parentElement;
         toDoList.removeChild(ul);
         todos.splice(i, 1);
         }
@@ -80,18 +91,27 @@ function remove(event) {
     localStorage.setItem('todos', JSON.stringify(todos));
 };
 
+function toggleDelete(event) {
+    const completed = event.target;
+    if(event.target.classList.contains('completeBtn')) {
+        if(completed.checked) {
+            completed.nextSibling.style.visibility = "visible";
+        } else {
+            completed.nextSibling.style.visibility = "hidden";
+        }
+    }
+};
+
 function strikethrough(event) {
     let i = 0;
-    const strike = event.target.nextSibling;
-    if(event.target.checked) {
-        strike.parentElement.style.textDecoration = "line-through";
-        strike.nextSibling.style.visibility = "visible"
-        todos[i].checked
-    } else {
-        strike.parentElement.style.textDecoration = "";
-        strike.nextSibling.style.visibility = "hidden";
-        
-    }
+    const strike = event.target.previousSibling;
+    if(event.target.classList.contains('completeBtn')) {
+        if(event.target.checked) {
+            strike.parentElement.style.textDecoration = "line-through";
+        } else {
+            strike.parentElement.style.textDecoration = "";
+        }
+    }    
     localStorage.setItem('todos', JSON.stringify(todos));
 };
 
