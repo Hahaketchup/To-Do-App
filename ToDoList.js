@@ -23,6 +23,14 @@ function addItem(event) {
 
     let newItem = document.getElementById('todo-input').value;
 
+    if(newItem.length > 0) {
+        const item = {
+            newItem,
+            checked: false,
+            id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1
+        };
+    }
+
     let ul = document.createElement('li');
     ul.className = 'list-item';
     ul.appendChild(document.createTextNode(newItem));
@@ -48,6 +56,7 @@ function addItem(event) {
 
     todos.push(newItem);
     localStorage.setItem("todos", JSON.stringify(todos));
+
 }
 
 function renderList() {
@@ -55,6 +64,18 @@ function renderList() {
 
     for(let i = 0; i < todos.length; i++) {
         console.log(todos[i]);
+
+        let text = todos[i].text;
+        list.innerHTML += `
+        <li class='todo-item'
+            onclick='strikethrough(${todos[i].id})'
+            id='${todos[i].id}'>
+            ${todos[i].checked ? text.strike() : text}
+        <span class='delete-todo js=delete=todo'
+            onclick='remove(${todos[i].id})'>
+            </span>
+            </li>`
+    
 
         let ul = document.createElement('li');
         ul.className = 'list-item';
@@ -84,11 +105,14 @@ function remove(event) {
     if(event.target.classList.contains('delete')) {
         let i = 0;
         let ul = event.target.parentElement;
-        toDoList.removeChild(ul);
-        todos.splice(i, 1);
-        }
 
+                todos.splice(i,1);
+                toDoList.removeChild(ul);
+            
+        }
+    
     localStorage.setItem('todos', JSON.stringify(todos));
+
 };
 
 function toggleDelete(event) {
