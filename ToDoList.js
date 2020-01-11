@@ -1,5 +1,5 @@
 //states where the functions go
-var itemInput = document.getElementById('todo-input');
+var itemInput = document.getElementById('todo-form');
 var toDoList = document.getElementById('todo-list');
 
 //adds specifications to the functions
