@@ -5,6 +5,9 @@ background-color: floralwhite;
 color: darkslategray;
 justify-content: space-evenly;
 margin: auto;
+font-family: 'Pacifico', cursive;
+
+
 
 }
 
@@ -24,6 +27,10 @@ margin: auto;
 
 .list-item {
 justify-content: flex-start;
+border: 2px solid #a30606;
+border-radius: 20px;
+margin-top: 15px;
+width: 700px;
 }
 
 .delete {

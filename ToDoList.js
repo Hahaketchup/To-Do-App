@@ -1,6 +1,6 @@
 //states where the functions go
-var itemInput = document.getElementById('main-input');
-var toDoList = document.getElementById('toDo');
+var itemInput = document.getElementById('todo-input');
+var toDoList = document.getElementById('todo-list');
 
 //adds specifications to the functions
 itemInput.addEventListener('submit', addItem);
@@ -21,7 +21,7 @@ console.log(typeof(todos));
 function addItem(event) {
     event.preventDefault();
 
-    let newItem = document.getElementById('input').value;
+    let newItem = document.getElementById('todo-input').value;
 
     let ul = document.createElement('li');
     ul.className = 'list-item';
@@ -44,7 +44,7 @@ function addItem(event) {
 
     toDoList.appendChild(ul);
 
-    document.getElementById('input').value =''; 
+    document.getElementById('todo-input').value =''; 
 
     todos.push(newItem);
     localStorage.setItem("todos", JSON.stringify(todos));
