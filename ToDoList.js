@@ -27,7 +27,7 @@ function addItem(event) {
         const item = {
             newItem,
             checked: false,
-            id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1
+            id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1,
         };
     }
 
@@ -57,6 +57,7 @@ function addItem(event) {
     todos.push(newItem);
     localStorage.setItem("todos", JSON.stringify(todos));
 
+    console.log(todos.id);
 }
 
 function renderList() {
