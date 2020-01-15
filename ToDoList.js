@@ -83,7 +83,7 @@ function renderList() {
 
         let ul = document.createElement('li');
         ul.className = 'list-item';
-        ul.appendChild(document.createTextNode(todos[i]));
+        ul.appendChild(document.createTextNode(todos[i].newItem));
 
         let completeBtn = document.createElement('input');
         completeBtn.className = 'checkbox btn-success btn-sm float right mt-1 mr-2 mb-1 completeBtn';
@@ -101,9 +101,8 @@ function renderList() {
         ul.appendChild(deleteButton);
 
         toDoList.appendChild(ul);
-        
+        localStorage.setItem('todos', JSON.stringify(todos));
     }
-    localStorage.setItem('todos', JSON.stringify(todos));
 };
 
 function remove(event) {
