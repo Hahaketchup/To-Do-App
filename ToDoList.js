@@ -1,76 +1,73 @@
 //states where the functions go
-var itemInput = document.getElementById('todo-form');
-var toDoList = document.getElementById('todo-list');
+var itemInput = document.getElementById("todo-form");
+var toDoList = document.getElementById("todo-list");
 
 //adds specifications to the functions
-itemInput.addEventListener('submit', addItem);
+itemInput.addEventListener("submit", addItem);
 
-toDoList.addEventListener('click', strikethrough);
+toDoList.addEventListener("click", strikethrough);
 
-toDoList.addEventListener('click', remove);
+toDoList.addEventListener("click", remove);
 
-toDoList.addEventListener('click', toggleDelete);
+toDoList.addEventListener("click", toggleDelete);
 
 const todos = JSON.parse(localStorage.getItem("todos")) || [];
 console.log(todos);
-console.log(typeof(todos));
-
-
+console.log(typeof todos);
 
 //allows an item input
 function addItem(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    let newItem = document.getElementById('todo-input').value;
+  let newItem = document.getElementById("todo-input").value;
 
-    if(newItem.length > 0) {
-        const item = {
-            newItem,
-            checked: false,
-            id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1,
-        };
-    
+  if (newItem.length > 0) {
+    const item = {
+      newItem,
+      checked: false,
+      id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1
+    };
 
-    let ul = document.createElement('li');
-    ul.className = 'list-item';
-    ul.appendChild(document.createTextNode(newItem));
+    let li = document.createElement("li");
+    li.className = "list-item";
+    li.setAttribute("id", "data-id");
+    li.appendChild(document.createTextNode(newItem));
 
-    let completeBtn = document.createElement('input');
-    completeBtn.className = 'checkbox btn-success btn-sm float right mt-1 mr-2 mb-1 completeBtn';
-    completeBtn.appendChild(document.createTextNode('Completed'));
+    let completeBtn = document.createElement("input");
+    completeBtn.className =
+      "checkbox btn-success btn-sm float right mt-1 mr-2 mb-1 completeBtn";
+    completeBtn.appendChild(document.createTextNode("Completed"));
     completeBtn.setAttribute("type", "checkbox");
-    ul.appendChild(completeBtn);
+    li.appendChild(completeBtn);
 
-    const deleteButton = document.createElement('button');
-    deleteButton.className = 'btn btn-danger btn-sm float-right delete';
-    deleteButton.appendChild(document.createTextNode('X'));
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn btn-danger btn-sm float-right delete";
+    deleteButton.appendChild(document.createTextNode("X"));
     deleteButton.style.visibility = "hidden";
     deleteButton.style.background = "red";
     deleteButton.style.color = "white";
     deleteButton.style.font = "bold";
-    ul.appendChild(deleteButton);
+    li.appendChild(deleteButton);
 
-    toDoList.appendChild(ul);
+    toDoList.appendChild(li);
 
-    document.getElementById('todo-input').value =''; 
+    document.getElementById("todo-input").value = "";
 
     todos.push(item);
     localStorage.setItem("todos", JSON.stringify(todos));
-
-    }
+  }
 }
 
 function renderList() {
-    const list = [document.getElementById('todo-list')];
+  const list = [document.getElementById("todo-list")];
 
-    list.innerHTML = '';
+  list.innerHTML = "";
 
-    for(let i = 0; i < todos.length; i++) {
-        console.log(todos[i].id);
+  for (let i = 0; i < todos.length; i++) {
+    console.log(todos[i].id);
 
-
-        let text = todos[i].text;
-        list.innerHTML += `
+    let text = todos[i].text;
+    list.innerHTML += `
         <li class='todo-item'
             onclick='strikethrough(${todos[i].id})'
             id='${todos[i].id}'>
@@ -78,70 +75,70 @@ function renderList() {
         <span class='delete-todo js=delete=todo'
             onclick='remove(${todos[i].id})'>
             </span>
-            </li>`
-    
+            </li>`;
 
-        let ul = document.createElement('li');
-        ul.className = 'list-item';
-        ul.appendChild(document.createTextNode(todos[i].newItem));
+    let li = document.createElement("li");
+    li.className = "list-item";
+    li.setAttribute('id', 'data-id');
+    li.appendChild(document.createTextNode(todos[i].newItem));
 
-        let completeBtn = document.createElement('input');
-        completeBtn.className = 'checkbox btn-success btn-sm float right mt-1 mr-2 mb-1 completeBtn';
-        completeBtn.appendChild(document.createTextNode('Completed'));
-        completeBtn.setAttribute("type", "checkbox");
-        ul.appendChild(completeBtn);
+    let completeBtn = document.createElement("input");
+    completeBtn.className =
+      "checkbox btn-success btn-sm float right mt-1 mr-2 mb-1 completeBtn";
+    completeBtn.appendChild(document.createTextNode("Completed"));
+    completeBtn.setAttribute("type", "checkbox");
+    li.appendChild(completeBtn);
 
-        const deleteButton = document.createElement('button');
-        deleteButton.className = 'btn btn-danger btn-sm float-right delete';
-        deleteButton.appendChild(document.createTextNode('X'));
-        deleteButton.style.visibility = "hidden";
-        deleteButton.style.background = "red";
-        deleteButton.style.color = "white";
-        deleteButton.style.font = "bold";
-        ul.appendChild(deleteButton);
+    const deleteButton = document.createElement("button");
+    deleteButton.className = "btn btn-danger btn-sm float-right delete";
+    deleteButton.appendChild(document.createTextNode("X"));
+    deleteButton.style.visibility = "hidden";
+    deleteButton.style.background = "red";
+    deleteButton.style.color = "white";
+    deleteButton.style.font = "bold";
+    li.appendChild(deleteButton);
 
-        toDoList.appendChild(ul);
-        localStorage.setItem('todos', JSON.stringify(todos));
-    }
-};
+    toDoList.appendChild(li);
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }
+}
 
 function remove(event) {
+  debugger;
+  
+  if (event.target.classList.contains("delete")) {
+    let id = event.target.parentElement.id;
+    let ul = event.target.parentElement;
 
-    if(event.target.classList.contains('delete')) {
-        let i = 0;
-        let ul = event.target.parentElement;
+    todos.splice(id, 1);
+    toDoList.removeChild(ul);
+  }
 
-                todos.splice(i,1);
-                toDoList.removeChild(ul);
-            
-        }
-    
-    localStorage.setItem('todos', JSON.stringify(todos));
-
-};
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
 
 function toggleDelete(event) {
-    const completed = event.target;
-    if(event.target.classList.contains('completeBtn')) {
-        if(completed.checked) {
-            completed.nextSibling.style.visibility = "visible";
-        } else {
-            completed.nextSibling.style.visibility = "hidden";
-        }
+  const completed = event.target;
+  if (event.target.classList.contains("completeBtn")) {
+    if (completed.checked) {
+      completed.nextSibling.style.visibility = "visible";
+    } else {
+      completed.nextSibling.style.visibility = "hidden";
     }
-};
+  }
+}
 
 function strikethrough(event) {
-    let i = 0;
-    const strike = event.target.previousSibling;
-    if(event.target.classList.contains('completeBtn')) {
-        if(event.target.checked) {
-            strike.parentElement.style.textDecoration = "line-through";
-        } else {
-            strike.parentElement.style.textDecoration = "";
-        }
-    }    
-
-};
+  let i = 0;
+  const strike = event.target.previousSibling;
+  if (event.target.classList.contains("completeBtn")) {
+    if (event.target.checked) {
+      strike.parentElement.style.textDecoration = "line-through";
+    } else {
+      strike.parentElement.style.textDecoration = "";
+    }
+  }
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
 
 renderList();
