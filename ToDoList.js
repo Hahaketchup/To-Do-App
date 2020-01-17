@@ -30,7 +30,7 @@ function addItem(event) {
 
     let li = document.createElement("li");
     li.className = "list-item";
-    li.setAttribute("id", "data-id");
+    li.setAttribute("data-id", item.id);
     li.appendChild(document.createTextNode(newItem));
 
     let completeBtn = document.createElement("input");
@@ -79,7 +79,7 @@ function renderList() {
 
     let li = document.createElement("li");
     li.className = "list-item";
-    li.setAttribute('id', 'data-id');
+    li.setAttribute('data-id', 'data-id');
     li.appendChild(document.createTextNode(todos[i].newItem));
 
     let completeBtn = document.createElement("input");
@@ -104,13 +104,12 @@ function renderList() {
 }
 
 function remove(event) {
-  debugger;
-  
   if (event.target.classList.contains("delete")) {
-    let id = event.target.parentElement.id;
+      debugger;
+    let id = event.target.parentElement.getAttribute('data-id');
     let ul = event.target.parentElement;
 
-    todos.splice(id, 1);
+    todos.splice(parseInt(id) -1 , 1);
     toDoList.removeChild(ul);
   }
 
