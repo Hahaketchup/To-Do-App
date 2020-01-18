@@ -109,6 +109,10 @@ function remove(event) {
     let id = event.target.parentElement.getAttribute('data-id');
     let ul = event.target.parentElement;
 
+    const todo = todos.filter(function(todoItem) {
+        return todoItem.id != id
+    });
+
     todos.splice(parseInt(id) -1 , 1);
     toDoList.removeChild(ul);
   }
@@ -125,6 +129,7 @@ function toggleDelete(event) {
       completed.nextSibling.style.visibility = "hidden";
     }
   }
+  
 }
 
 function strikethrough(event) {
