@@ -104,19 +104,14 @@ function renderList() {
 }
 
 function remove(event) {
-  if (event.target.classList.contains("delete")) {
-      debugger;
     let id = event.target.parentElement.getAttribute('data-id');
     let ul = event.target.parentElement;
 
-    const todo = todos.filter(function(todoItem) {
-        return todoItem.id != todoItem.id;
-        console.log(todoItem);
-    });
-
-    todos.splice(parseInt(id) -1 , 1);
-    toDoList.removeChild(ul);
-  }
+    for(let i = 0; i < todos.length; i++){
+        if(todos[i].id == id){
+            todos.splice(i, 1);
+        }
+      }
 
   localStorage.setItem("todos", JSON.stringify(todos));
 }
