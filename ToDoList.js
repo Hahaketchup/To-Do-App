@@ -11,7 +11,7 @@ toDoList.addEventListener("click", remove);
 
 toDoList.addEventListener("click", toggleDelete);
 
-const todos = JSON.parse(localStorage.getItem("todos")) || [];
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
 console.log(todos);
 console.log(typeof todos);
 
@@ -27,7 +27,7 @@ function addItem(event) {
       checked: false,
       id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1
     };
-
+    
     let li = document.createElement("li");
     li.className = "list-item";
     li.setAttribute("data-id", item.id);
@@ -79,7 +79,7 @@ function renderList() {
 
     let li = document.createElement("li");
     li.className = "list-item";
-    li.setAttribute('data-id', todos[i].id);
+    li.setAttribute("data-id", todos[i].id);
     li.appendChild(document.createTextNode(todos[i].newItem));
 
     let completeBtn = document.createElement("input");
@@ -103,16 +103,16 @@ function renderList() {
   }
 }
 
-function remove(event) {
-    let id = event.target.parentElement.getAttribute('data-id');
-    let ul = event.target.parentElement;
-
-    for(let i = 0; i < todos.length; i++){
-        if(todos[i].id == id){
-            todos.splice(i, 1);
-        }
-      }
-
+function strikethrough(event) {
+  let i = 0;
+  const strike = event.target.previousSibling;
+  if (event.target.classList.contains("completeBtn")) {
+    if (event.target.checked) {
+      strike.parentElement.style.textDecoration = "line-through";
+    } else {
+      strike.parentElement.style.textDecoration = "";
+    }
+  }
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
@@ -125,19 +125,22 @@ function toggleDelete(event) {
       completed.nextSibling.style.visibility = "hidden";
     }
   }
-  
 }
 
-function strikethrough(event) {
-  let i = 0;
-  const strike = event.target.previousSibling;
-  if (event.target.classList.contains("completeBtn")) {
-    if (event.target.checked) {
-      strike.parentElement.style.textDecoration = "line-through";
-    } else {
-      strike.parentElement.style.textDecoration = "";
-    }
-  }
+function remove(event) {
+    let id = event.target.parentElement.getAttribute('data-id');
+    let ul = event.target.parentElement;
+    
+    console.log(todos);
+
+    for(let i = 0; i < todos.length; i++){
+        if(todos[i].id == id){
+            todos = todos.filter(function(todoItem){
+                return todos[i].id != todoItem.id
+            });
+        }
+      }
+      toDoList.removeChild(ul);
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
