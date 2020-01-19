@@ -79,7 +79,7 @@ function renderList() {
 
     let li = document.createElement("li");
     li.className = "list-item";
-    li.setAttribute('data-id', 'data-id');
+    li.setAttribute('data-id', todos[i].id);
     li.appendChild(document.createTextNode(todos[i].newItem));
 
     let completeBtn = document.createElement("input");
@@ -109,11 +109,12 @@ function remove(event) {
     let id = event.target.parentElement.getAttribute('data-id');
     let ul = event.target.parentElement;
 
-    const todo = todos.filter(function(todoItem) {
-        return todoItem.id != id
+    const todos = todos.filter(function(todoItem) {
+        return todoItem.id != todoItem.id;
+        console.log(todoItem);
     });
 
-    todos.splice(parseInt(id) -1 , 1);
+    todo.splice(parseInt(id) -1 , 1);
     toDoList.removeChild(ul);
   }
 
