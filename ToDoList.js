@@ -109,12 +109,12 @@ function remove(event) {
     let id = event.target.parentElement.getAttribute('data-id');
     let ul = event.target.parentElement;
 
-    const todos = todos.filter(function(todoItem) {
+    const todo = todos.filter(function(todoItem) {
         return todoItem.id != todoItem.id;
         console.log(todoItem);
     });
 
-    todo.splice(parseInt(id) -1 , 1);
+    todos.splice(parseInt(id) -1 , 1);
     toDoList.removeChild(ul);
   }
 
