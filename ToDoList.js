@@ -27,7 +27,7 @@ function addItem(event) {
       checked: false,
       id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1
     };
-    
+
     let li = document.createElement("li");
     li.className = "list-item";
     li.setAttribute("data-id", item.id);
@@ -128,20 +128,17 @@ function toggleDelete(event) {
 }
 
 function remove(event) {
-    let id = event.target.parentElement.getAttribute('data-id');
-    let ul = event.target.parentElement;
-    
-    console.log(todos);
+  let id = event.target.parentElement.getAttribute("data-id");
+  let ul = event.target.parentElement;
 
-    for(let i = 0; i < todos.length; i++){
-        if(todos[i].id == id){
-            todos = todos.filter(function(todoItem){
-                return todos[i].id != todoItem.id
-            });
-        }
-      }
-      toDoList.removeChild(ul);
+  console.log(todos);
+
+  todos = todos.filter(function(todoItem) {
+      console.log('todoItem.id: ', todoItem.id);
+    return todoItem !== todos.id;
+  });
+  todos.splice(parseInt(id) , 1);
+  toDoList.removeChild(ul);
   localStorage.setItem("todos", JSON.stringify(todos));
 }
-
 renderList();
