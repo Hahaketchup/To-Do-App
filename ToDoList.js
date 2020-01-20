@@ -135,9 +135,12 @@ function remove(event) {
 
   todos = todos.filter(function(todoItem) {
       console.log('todoItem.id: ', todoItem.id);
-    return todoItem !== todos.id;
+      console.log(typeof(todoItem.id));
+      console.log(id);
+      console.log(typeof(Number(id)));
+    return todoItem.id !== Number(id);
   });
-  todos.splice(parseInt(id) , 1);
+  todos.splice(parseInt(id) - 1, 1);
   toDoList.removeChild(ul);
   localStorage.setItem("todos", JSON.stringify(todos));
 }
