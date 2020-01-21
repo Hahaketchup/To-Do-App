@@ -8,17 +8,15 @@ _Here is a To Do List written using vanilla HTML/CSS as well as basic Javascript
 
 This app allows users to create a list of items to do and remove once completed. It will also store the data being entered in between uses even after exiting the program using Local Storage.
 
-View it in action [here]()
+View it in action [here](https://hahaketchup.github.io/To-Do-App/)
 
 <br>
 
-![To Do List]( "To Do List Example")
+![To Do List](https://raw.githubusercontent.com/Hahaketchup/To-Do-App/master/Todo%20App.png "To Do List Example")
 
 ## Summary
 
-I had finally taken my first step to being a programmer early 2019 by buying class after class. It wasn't until later that year that I had actually put the effort in to begin putting into practice what I had learned and gotten serious about doing so.
-
-This is my first major step to being the programmer that I want to be, and while it's simple, it's a major step for me. It's been a great learning experience.
+This app really challenged me to understand new concepts and functions of javascript such as local storage and allowing user input. I enjoyed the complexity of a seemingly simple app as well as getting into the mindset of a programmer, rather than someone who just typed at a computer wanting to spit some code out.
 
 ## Author
 
