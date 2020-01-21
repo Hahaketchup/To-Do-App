@@ -140,7 +140,6 @@ function remove(event) {
       console.log(typeof(Number(id)));
     return todoItem.id !== Number(id);
   });
-  todos.splice(parseInt(id) - 1, 1);
   toDoList.removeChild(ul);
   localStorage.setItem("todos", JSON.stringify(todos));
 }
