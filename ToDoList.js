@@ -1,129 +1,92 @@
-//states where the functions go
 var itemInput = document.getElementById("todo-form");
-var toDoList = document.getElementById("todo-list");
-
-//adds specifications to the functions
-itemInput.addEventListener("submit", addItem);
-
-toDoList.addEventListener("click", strikethrough);
-
-toDoList.addEventListener("click", remove);
-
-toDoList.addEventListener("click", toggleDelete);
-
-let todos = JSON.parse(localStorage.getItem("todos")) || [];
-console.log(todos);
-console.log(typeof todos);
-
-//allows an item input
-function addItem(event) {
+itemInput.addEventListener("submit", function(event) {
   event.preventDefault();
 
-  let newItem = document.getElementById("todo-input").value;
+  let todoItemText = document.getElementById("todo-input").value;
 
-  if (newItem.length > 0) {
+  if (todoItemText.length > 0) {
+    let todos = JSON.parse(localStorage.getItem("todos")) || [];
     const item = {
-      newItem,
+      text: todoItemText,
       checked: false,
       id: todos.length > 0 ? todos[todos.length - 1].id + 1 : 1
     };
-
-    let li = document.createElement("li");
-    li.className = "list-item";
-    li.setAttribute("data-id", item.id);
-    li.appendChild(document.createTextNode(newItem));
-
-    let completeBtn = document.createElement("input");
-    completeBtn.className =
-      "checkbox btn-success btn-sm float right mt-1 mr-2 mb-1 completeBtn";
-    completeBtn.appendChild(document.createTextNode("Completed"));
-    completeBtn.setAttribute("type", "checkbox");
-    li.appendChild(completeBtn);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "btn btn-danger btn-sm float-right delete";
-    deleteButton.appendChild(document.createTextNode("X"));
-    deleteButton.style.visibility = "hidden";
-    deleteButton.style.background = "red";
-    deleteButton.style.color = "white";
-    deleteButton.style.font = "bold";
-    li.appendChild(deleteButton);
-
-    toDoList.appendChild(li);
+  
+    renderToDoItem(item);
 
     document.getElementById("todo-input").value = "";
+
 
     todos.push(item);
     localStorage.setItem("todos", JSON.stringify(todos));
   }
+});
+
+function renderToDoItem(item) {
+  let li = createLiElement(item);
+
+  let completeBtn = createCompletedButton();
+  li.appendChild(completeBtn);
+
+  let deleteButton = createDeleteButton();
+  li.appendChild(deleteButton);
+
+  var toDoList = document.getElementById("todo-list");
+  toDoList.appendChild(li);
 }
 
-function renderList() {
-  const list = [document.getElementById("todo-list")];
+function createLiElement(todoItem) {
+  const liElement = document.createElement('LI');
+  liElement.className = 'list-item';
+  liElement.setAttribute('data-id', todoItem.id);
+  liElement.appendChild(document.createTextNode(todoItem.text))
+  return liElement
+}
 
-  list.innerHTML = "";
+function createCompletedButton() {
+  const completedButton = document.createElement('input');
+  completedButton.className = 'btn btn-danger btn-sm float-right delete';
+  completedButton.appendChild(document.createTextNode('Completed'));
+  completedButton.setAttribute('type', 'checkbox');
+  completedButton.addEventListener('click', function(e) {
+    strikethrough(e);
+    toggleDelete(e);
+  });
+  return completedButton
+}
 
-  for (let i = 0; i < todos.length; i++) {
-    console.log(todos[i].id);
-
-    let text = todos[i].text;
-    list.innerHTML += `
-        <li class='todo-item'
-            onclick='strikethrough(${todos[i].id})'
-            id='${todos[i].id}'>
-            ${todos[i].checked ? text.strike() : text}
-        <span class='delete-todo js=delete=todo'
-            onclick='remove(${todos[i].id})'>
-            </span>
-            </li>`;
-
-    let li = document.createElement("li");
-    li.className = "list-item";
-    li.setAttribute("data-id", todos[i].id);
-    li.appendChild(document.createTextNode(todos[i].newItem));
-
-    let completeBtn = document.createElement("input");
-    completeBtn.className =
-      "checkbox btn-success btn-sm float right mt-1 mr-2 mb-1 completeBtn";
-    completeBtn.appendChild(document.createTextNode("Completed"));
-    completeBtn.setAttribute("type", "checkbox");
-    li.appendChild(completeBtn);
-
-    const deleteButton = document.createElement("button");
-    deleteButton.className = "btn btn-danger btn-sm float-right delete";
-    deleteButton.appendChild(document.createTextNode("X"));
-    deleteButton.style.visibility = "hidden";
-    deleteButton.style.background = "red";
-    deleteButton.style.color = "white";
-    deleteButton.style.font = "bold";
-    li.appendChild(deleteButton);
-
-    toDoList.appendChild(li);
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }
+function createDeleteButton() {
+  const deleteButton = document.createElement("button");
+  deleteButton.className = "delete";
+  deleteButton.appendChild(document.createTextNode("X"));
+  deleteButton.style.visibility = "hidden";
+  deleteButton.style.background = "red";
+  deleteButton.style.color = "white";
+  deleteButton.style.font = "bold";
+  deleteButton.addEventListener('click', function(e) {
+    remove(e);
+  })
+  return deleteButton;
 }
 
 function strikethrough(event) {
-  let i = 0;
   const strike = event.target.previousSibling;
-  if (event.target.classList.contains("completeBtn")) {
-    if (event.target.checked) {
-      strike.parentElement.style.textDecoration = "line-through";
-    } else {
-      strike.parentElement.style.textDecoration = "";
-    }
+
+  if (event.target.checked) {
+    strike.parentElement.style.textDecoration = "line-through";
+  } else {
+    strike.parentElement.style.textDecoration = "";
   }
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 function toggleDelete(event) {
   const completed = event.target;
-  if (event.target.classList.contains("completeBtn")) {
-    if (completed.checked) {
-      completed.nextSibling.style.visibility = "visible";
-    } else {
-      completed.nextSibling.style.visibility = "hidden";
-    }
+
+  if (completed.checked) {
+    completed.nextSibling.style.visibility = "visible";
+  } else {
+    completed.nextSibling.style.visibility = "hidden";
   }
 }
 
@@ -131,16 +94,18 @@ function remove(event) {
   let id = event.target.parentElement.getAttribute("data-id");
   let ul = event.target.parentElement;
 
-  console.log(todos);
-
   todos = todos.filter(function(todoItem) {
-      console.log('todoItem.id: ', todoItem.id);
-      console.log(typeof(todoItem.id));
-      console.log(id);
-      console.log(typeof(Number(id)));
     return todoItem.id !== Number(id);
   });
+
+  var toDoList = document.getElementById("todo-list");
   toDoList.removeChild(ul);
   localStorage.setItem("todos", JSON.stringify(todos));
 }
-renderList();
+
+let todos = JSON.parse(localStorage.getItem("todos")) || [];
+for (let i = 0; i < todos.length; i++) {
+
+  renderToDoItem(todos[i]);
+  localStorage.setItem("todos", JSON.stringify(todos));
+}
