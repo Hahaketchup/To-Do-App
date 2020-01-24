@@ -40,7 +40,7 @@ function createLiElement(todoItem) {
   liElement.className = 'list-item';
   liElement.setAttribute('data-id', todoItem.id);
   liElement.appendChild(document.createTextNode(todoItem.text))
-  return liElement
+  return liElement;
 }
 
 function createCompletedButton() {
@@ -57,15 +57,15 @@ function createCompletedButton() {
 
 function createDeleteButton() {
   const deleteButton = document.createElement("button");
-  deleteButton.className = "delete";
+  deleteButton.className = "btn btn-danger btn-sm float-right delete";
   deleteButton.appendChild(document.createTextNode("X"));
   deleteButton.style.visibility = "hidden";
   deleteButton.style.background = "red";
   deleteButton.style.color = "white";
   deleteButton.style.font = "bold";
-  deleteButton.addEventListener('click', function(e) {
+  deleteButton.addEventListener("click", function(e) {
     remove(e);
-  })
+  });
   return deleteButton;
 }
 
@@ -105,7 +105,6 @@ function remove(event) {
 
 let todos = JSON.parse(localStorage.getItem("todos")) || [];
 for (let i = 0; i < todos.length; i++) {
-
   renderToDoItem(todos[i]);
   localStorage.setItem("todos", JSON.stringify(todos));
-}
+};
